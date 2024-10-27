@@ -9,7 +9,7 @@ import Notification from "./components/Notification"
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [nameFilter, setNameFilter] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState('')
 
   useEffect(() => {
     personsService
@@ -30,11 +30,7 @@ const App = () => {
       personsService
       .create(newPerson)
       .then(returnedPerson => {
-        setNotificationMessage({
-          message: `Added ${returnedPerson.name}`,
-          isError: false
-        })
-        
+        setNotificationMessage(`Added ${returnedPerson.name}`)
           setTimeout(() => {
             setNotificationMessage(null)
           }, 5000)
@@ -67,13 +63,8 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== deletedPerson.id));
         })
         .catch(error => {
-          setNotificationMessage({
-            message: `Information of ${personToRemove.name} has already been removed from server`,
-            isError: true
-          })
-          setTimeout(() => {
-            setNotificationMessage(null)
-          }, 5000)
+          console.error("Error removing person:", error);
+          alert("An error occurred while trying to delete the person.");
         });
     }
   }  
