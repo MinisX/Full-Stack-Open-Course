@@ -8,6 +8,7 @@ app.use(express.json())
 // Middleware to log each request
 app.use(morgan('tiny'))
 
+// data
 let persons = [
     { 
       "id": "1",
@@ -31,6 +32,17 @@ let persons = [
     }
 ]
 
+// helper methods
+const generateNewId = () => {
+  let randomId = 1
+  while(persons.find(person => person.id === randomId.toString())){
+    randomId = Math.floor(Math.random() * 10000)
+  }
+  
+  return randomId;
+}
+
+// REST endpoints
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -81,15 +93,7 @@ app.post('/api/persons', (request,response) => {
   response.status(201).json(newPerson)
 })
 
-const generateNewId = () => {
-  let randomId = 1
-  while(persons.find(person => person.id === randomId.toString())){
-    randomId = Math.floor(Math.random() * 10000)
-  }
-  
-  return randomId;
-}
-  
+// server configuration
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
