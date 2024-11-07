@@ -23,7 +23,7 @@ const App = () => {
   const addPerson = (newName, newPhoneNumber) => {
     const newPerson = {
       name: newName,
-      phoneNumber: newPhoneNumber,
+      number: newPhoneNumber,
     };
 
     if (!doesPersonExist(newPerson)) {
