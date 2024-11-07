@@ -56,18 +56,17 @@ const App = () => {
 
   const remove = (personId) => {
     const personToRemove = persons.find(person => person.id === personId);
-  
     if (personToRemove && window.confirm(`Delete ${personToRemove.name}?`)) {
       personsService.remove(personId)
-        .then((deletedPerson) => {
-          setPersons(persons.filter(person => person.id !== deletedPerson.id));
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== personId));
         })
         .catch(error => {
           console.error("Error removing person:", error);
           alert("An error occurred while trying to delete the person.");
         });
     }
-  }  
+  }
 
   return (
     <div>
