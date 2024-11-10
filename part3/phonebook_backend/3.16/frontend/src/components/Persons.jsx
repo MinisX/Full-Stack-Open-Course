@@ -7,7 +7,7 @@ const Persons = ({ persons, nameFilter, remove }) => {
     <>
       {filteredPersons.map((person) => (
         <div key={person.id}>
-          {person.name} {person.phoneNumber} <button onClick={() => remove(person.id)}>{'delete'}</button>
+          {person.name} {person.number} <button onClick={() => remove(person.id)}>{'delete'}</button>
         </div>
       ))}
     </>
