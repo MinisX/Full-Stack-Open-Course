@@ -9,7 +9,7 @@ import Notification from "./components/Notification"
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [nameFilter, setNameFilter] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personsService
@@ -17,6 +17,9 @@ const App = () => {
     .then(initialPersons => {
       setPersons(initialPersons)
       console.log('data fetched from the server')
+    })
+    .catch(error => {
+      setNotificationMessage({text: error.response.data.error, isSuccess: false})
     })
   },[])
 
@@ -30,11 +33,14 @@ const App = () => {
       personsService
       .create(newPerson)
       .then(returnedPerson => {
-        setNotificationMessage(`Added ${returnedPerson.name}`)
+        setNotificationMessage({text: `Added ${returnedPerson.name}`, isSuccess: true})
           setTimeout(() => {
             setNotificationMessage(null)
           }, 5000)
         setPersons(persons.concat(returnedPerson));
+      })
+      .catch(error => {
+        setNotificationMessage({text: error.response.data.error, isSuccess: false})
       })
     } else {
       if(window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)){
@@ -42,6 +48,9 @@ const App = () => {
         .update(persons.find(person => person.name === newPerson.name).id, newPerson)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+        })
+        .catch(error => {
+          setNotificationMessage({text: error.response.data.error, isSuccess: false})
         })
       }
     }

@@ -1,6 +1,10 @@
 const Notification = ({ message }) => {
+  if (!message) {
+    return null
+  }
+  
   const notificationStyle = {
-    color: 'green',
+    color: message.isSuccess ? 'green' : 'red',
     background: 'lightgrey',
     fontSize: 20,
     borderStyle: 'solid',
@@ -8,14 +12,10 @@ const Notification = ({ message }) => {
     padding: 1,
     marginBottom: 10
   }
-
-    if (!message) {
-      return null
-    }
   
     return (
       <div style={notificationStyle}>
-        {message}
+        {message.text}
       </div>
     )
   }
