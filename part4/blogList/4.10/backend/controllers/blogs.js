@@ -6,6 +6,7 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+// catch of exception is handled by express-async-errors library
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
   const result = await blog.save()
