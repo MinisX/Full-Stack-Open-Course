@@ -53,6 +53,23 @@ test('successfully creates a new blog post', async () => {
   assert(titles.includes('Georgy Blog'))
 })
 
+
+test('likes property is missing from the request', async () => {
+  const newBlog = {
+    title: 'Kate Blog',
+    author: 'Kate',
+    url: 'kate.com',
+  }
+
+  const result = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(result.body.likes, 0)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
