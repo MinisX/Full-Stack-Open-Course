@@ -5,6 +5,7 @@ import BlogCreate from './components/BlogCreate'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
 import './index.css'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -43,15 +44,17 @@ const App = () => {
       <Notification notification={notification}/>
       {user === null 
       ? 
-      <Login setUser={setUser} setNotification={setNotification}/> 
+        <Login setUser={setUser} setNotification={setNotification}/> 
       :
       <div>
         <h2>blogs</h2>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
         <br/><br/>
 
-        <h2>create new</h2>
-        <BlogCreate blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
+        <Togglable buttonLabel='new note'>
+          <h2>create new</h2>
+          <BlogCreate blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
+        </Togglable>
       
         <br/><br/>
         {blogs.map(blog =>
