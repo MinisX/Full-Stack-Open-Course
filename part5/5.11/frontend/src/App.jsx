@@ -24,11 +24,8 @@ const App = () => {
   }, [notification])
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-    {
-      setBlogs(sortBlogs(blogs))
-    }
-    )  
+    if(user !== null)
+      blogService.getAll().then(blogs => setBlogs(sortBlogs(blogs)))  
   }, [user])
 
   useEffect(() => {
@@ -54,8 +51,6 @@ const App = () => {
     window.localStorage.removeItem('loggedNoteappUser')
     setUser(null)
   }
-
-  console.log('rerender')
 
   return (
     <div>
