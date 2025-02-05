@@ -6,16 +6,17 @@ const Blog = ({ blog, setNotification }) => {
   const [updatedBlog, setUpdatedBlog] = useState(blog)
 
   const handleLike = () => {
+    console.log(blog.id)
     try{
-          blogService.update({likes: updatedBlog.likes + 1, title: updatedBlog.title, author: updatedBlog.author, url: updatedBlog.url}, updatedBlog.id)
-          .then(newBlog => {
-            console.log(newBlog)
-            setUpdatedBlog(newBlog)
-          })
-          setNotification({error: false, text: `The blog ${title} has received like`})
-        }catch(exception){
-          setNotification({error: true, text: `The blog like has failed`})
-        }
+        blogService.update({likes: updatedBlog.likes + 1, title: updatedBlog.title, author: updatedBlog.author, url: updatedBlog.url}, updatedBlog.id)
+        .then(newBlog => {
+          console.log(newBlog)
+          setUpdatedBlog(newBlog)
+          setNotification({error: false, text: `The blog ${newBlog.title} has received like`})
+        })
+      }catch(exception){
+          setNotification({error: true, text: `The blog like has failed: ${exception.message}`})
+      }
   }
 
   const blogStyle = {
