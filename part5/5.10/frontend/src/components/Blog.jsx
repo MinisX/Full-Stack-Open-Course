@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, setNotification }) => {
+const Blog = ({ blog, updateBlog, setNotification }) => {
   const [viewDetails, setViewDetails] = useState(false)
-  const [updatedBlog, setUpdatedBlog] = useState(blog)
 
   const handleLike = () => {
     console.log(blog.id)
     try{
-        blogService.update({likes: updatedBlog.likes + 1, title: updatedBlog.title, author: updatedBlog.author, url: updatedBlog.url}, updatedBlog.id)
+        blogService.update({likes: blog.likes + 1, title: blog.title, author: blog.author, url: blog.url}, blog.id)
         .then(newBlog => {
-          console.log(newBlog)
-          setUpdatedBlog(newBlog)
+          updateBlog(newBlog)
           setNotification({error: false, text: `The blog ${newBlog.title} has received like`})
         })
       }catch(exception){
@@ -29,15 +27,15 @@ const Blog = ({ blog, setNotification }) => {
 
   return(
     <div style={blogStyle}>
-      {updatedBlog.title} <button onClick={() => setViewDetails(!viewDetails)}>{viewDetails ? 'hide' : 'view'}</button>
+      {blog.title} <button onClick={() => setViewDetails(!viewDetails)}>{viewDetails ? 'hide' : 'view'}</button>
       {viewDetails && (
       <>
         <br/>
-        {updatedBlog.author}
+        {blog.author}
         <br/>
-        {updatedBlog.url}
+        {blog.url}
         <br/>
-        {updatedBlog.likes} <button onClick={handleLike}>like</button>
+        {blog.likes} <button onClick={handleLike}>like</button>
       </>
     )}
     </div>  

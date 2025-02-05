@@ -12,6 +12,10 @@ const App = () => {
   const [user, setUser] = useState(null) 
   const [notification, setNotification] = useState({error: false, text: ''})
 
+  const sortBlogs = (blogsToSort) => {
+    return [...blogsToSort].sort((a, b) => a.likes - b.likes)
+  }
+
   useEffect(() =>{
     if(notification != null){}
       setTimeout(() => {
@@ -21,7 +25,9 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+    {
+      setBlogs(sortBlogs(blogs))
+    }
     )  
   }, [user])
 
@@ -33,6 +39,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const updateBlog = (updatedBlog) => {
+    setBlogs(prevBlogs => {
+      const newBlogs = prevBlogs.map(b => b.id === updatedBlog.id ? updatedBlog : b)
+      return sortBlogs(newBlogs)
+    })
+  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
@@ -58,7 +71,7 @@ const App = () => {
       
         <br/><br/>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} setNotification={setNotification}/>
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} setNotification={setNotification}/>
         )}
       </div>
     }
