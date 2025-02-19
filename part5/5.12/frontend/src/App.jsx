@@ -9,15 +9,15 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null) 
-  const [notification, setNotification] = useState({error: false, text: ''})
+  const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState({ error: false, text: '' })
 
   const sortBlogs = (blogsToSort) => {
     return [...blogsToSort].sort((a, b) => a.likes - b.likes)
   }
 
-  useEffect(() =>{
-    if(notification != null){}
+  useEffect(() => {
+    if(notification !== null)
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     if(user !== null)
-      blogService.getAll().then(blogs => setBlogs(sortBlogs(blogs)))  
+      blogService.getAll().then(blogs => setBlogs(sortBlogs(blogs)))
   }, [user])
 
   useEffect(() => {
@@ -40,8 +40,8 @@ const App = () => {
   const updateBlog = (updatedBlog) => {
     setBlogs(prevBlogs => {
       if (updatedBlog.deleted)
-        return prevBlogs.filter(b => b.id !== updatedBlog.id);
-    
+        return prevBlogs.filter(b => b.id !== updatedBlog.id)
+
       const newBlogs = prevBlogs.map(b => b.id === updatedBlog.id ? updatedBlog : b)
       return sortBlogs(newBlogs)
     })
@@ -55,26 +55,26 @@ const App = () => {
   return (
     <div>
       <Notification notification={notification}/>
-      {user === null 
-      ? 
-        <Login setUser={setUser} setNotification={setNotification}/> 
-      :
-      <div>
-        <h2>blogs</h2>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
-        <br/><br/>
+      {user === null
+        ?
+        <Login setUser={setUser} setNotification={setNotification}/>
+        :
+        <div>
+          <h2>blogs</h2>
+          {user.name} logged in <button onClick={handleLogout}>logout</button>
+          <br/><br/>
 
-        <Togglable buttonLabel='create new blog'>
-          <h2>create new</h2>
-          <BlogCreate blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
-        </Togglable>
-      
-        <br/><br/>
-        {blogs.map(blog => 
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} setNotification={setNotification} showDeleteButton={blog.user.username === user.username}/>
-        )}
-      </div>
-    }
+          <Togglable buttonLabel='create new blog'>
+            <h2>create new</h2>
+            <BlogCreate blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
+          </Togglable>
+
+          <br/><br/>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} setNotification={setNotification} showDeleteButton={blog.user.username === user.username}/>
+          )}
+        </div>
+      }
     </div>
   )
 }
