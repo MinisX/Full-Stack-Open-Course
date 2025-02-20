@@ -39,11 +39,12 @@ const Blog = ({ blog, updateBlog, setNotification, showDeleteButton }) => {
 
   return(
     <div style={blogStyle}>
-      {blog.title} <button onClick={() => setViewDetails(!viewDetails)}>{viewDetails ? 'hide' : 'view'}</button>
+      <div className='main_content'>
+        {blog.title} {blog.author}
+        <button onClick={() => setViewDetails(!viewDetails)}>{viewDetails ? 'hide' : 'view'}</button>
+      </div>
       {viewDetails && (
         <>
-          <br/>
-          {blog.author}
           <br/>
           {blog.url}
           <br/>
