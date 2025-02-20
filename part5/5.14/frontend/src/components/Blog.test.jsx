@@ -32,7 +32,7 @@ describe('<Blog />', () => {
     expect(div).not.toHaveTextContent(`${blog.likes}`)
   })
 
-  test('click button', async () => {
+  test('view button click and URL with likes are shown', async () => {
     const user = userEvent.setup()
     const button = screen.getByText('view')
     await user.click(button)
