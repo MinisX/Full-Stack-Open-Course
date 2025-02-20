@@ -44,14 +44,14 @@ const Blog = ({ blog, updateBlog, setNotification, showDeleteButton }) => {
         <button onClick={() => setViewDetails(!viewDetails)}>{viewDetails ? 'hide' : 'view'}</button>
       </div>
       {viewDetails && (
-        <>
+        <div className='extra_content'>
           <br/>
           {blog.url}
           <br/>
           {blog.likes} <button onClick={handleLike}>like</button>
           <br/>
           {showDeleteButton && <button onClick={handleRemove}>remove</button>}
-        </>
+        </div>
       )}
     </div>
   )
