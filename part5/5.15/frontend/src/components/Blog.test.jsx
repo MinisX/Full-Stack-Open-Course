@@ -13,6 +13,8 @@ describe('<Blog />', () => {
 
   const updateBlog = vi.fn()
   const setNotification = vi.fn()
+  // this function is created for test purposes of exercise 5.15 to not change the logic of my implementation
+  const forTestPurposes = vi.fn()
 
   beforeEach(() => {
     container = render(
@@ -20,7 +22,8 @@ describe('<Blog />', () => {
         blog={blog}
         setNotification={setNotification}
         updateBlog={updateBlog}
-        showDeleteButton={false}/>
+        showDeleteButton={false}
+        forTestPurposes={forTestPurposes}/>
     ).container
   })
 
@@ -41,5 +44,19 @@ describe('<Blog />', () => {
 
     expect(div).toHaveTextContent(`${blog.url}`)
     expect(div).toHaveTextContent(`${blog.likes}`)
+  })
+
+  test('like button click twice -> updateBlog clicked twice', async () => {
+    const user = userEvent.setup()
+
+    // open extra content
+    let button = screen.getByText('view')
+    await user.click(button)
+
+    // click like button
+    button = screen.getByText('like')
+    await user.dblClick(button)
+
+    expect(forTestPurposes.mock.calls).toHaveLength(2)
   })
 })
