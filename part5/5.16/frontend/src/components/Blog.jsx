@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlog, setNotification, showDeleteButton, forTestPurposes }) => {
+const Blog = ({ blog, updateBlog, setNotification, showDeleteButton }) => {
   const [viewDetails, setViewDetails] = useState(false)
 
   const handleLike = () => {
-    // this function is created for test purposes of exercise 5.15 to not change the logic of my implementation
-    forTestPurposes()
     try{
       blogService.update({ likes: blog.likes + 1, title: blog.title, author: blog.author, url: blog.url }, blog.id)
         .then(newBlog => {

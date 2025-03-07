@@ -47,11 +47,6 @@ const App = () => {
     })
   }
 
-  // this function is created for test purposes of exercise 5.15 to not change the logic of my implementation
-  const forTestPurposes = () => {
-    return null
-  }
-
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
     setUser(null)
@@ -76,7 +71,7 @@ const App = () => {
 
           <br/><br/>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} setNotification={setNotification} showDeleteButton={blog.user.username === user.username} forTestPurposes={forTestPurposes}/>
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} setNotification={setNotification} showDeleteButton={blog.user.username === user.username}/>
           )}
         </div>
       }
