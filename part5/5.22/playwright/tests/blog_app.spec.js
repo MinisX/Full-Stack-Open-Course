@@ -96,5 +96,19 @@ describe('Blog app', () => {
       const deleteButtons = await page.getByRole('button', { name : 'remove' }).all()
       expect(deleteButtons).toHaveLength(1);
     })
+
+    test('blogs are arranged in the order according to the likes', async ({ page }) => {
+      await createNewBlog(page, 'title', 'author', 'url')
+      await page.getByRole('button', { name : 'cancel' }).click()
+      await page.getByText('title author').waitFor()
+
+      await createNewBlog(page, 'title2', 'author2', 'url2')
+      await page.getByText('title2 author2').waitFor()
+
+      await page.getByRole('button', { name : 'view' }).first().click()
+      await page.getByRole('button', { name : 'like' }).click()
+      
+      await expect(page.locator('.main_content').first()).toContainText('title2 author2')
+    })
   })
 })
