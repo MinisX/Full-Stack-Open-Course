@@ -8,10 +8,14 @@ describe('Blog app', () => {
   }
 
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:3001/api/testing/reset')
-    await request.post('http://localhost:3001/api/users', {data: user})
+    // it was await request.post('http://localhost:3001/api/testing/reset'), but in frontend we have redirect to 3001 when /api is used
+    // so http://localhost:5173/api redirects to localhost:3001
+
+    // we could also remove the localhost from here, because we defined it in playwright.config.js
+    await request.post('/api/testing/reset')
+    await request.post('/api/users', {data: user})
     
-    await page.goto('http://localhost:5173')
+    await page.goto('/')
   })
 
   test('Login form is shown', async ({ page }) => {
