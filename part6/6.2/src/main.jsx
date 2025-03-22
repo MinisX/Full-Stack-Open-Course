@@ -7,21 +7,27 @@ import reducer from './reducer'
 const store = createStore(reducer)
 
 const App = () => {
-  const good = () => {
+  const actionTypes = {
+    good : 'GOOD',
+    ok : 'OK',
+    bad : 'BAD',
+    reset : 'ZERO'
+  }
+  const dispatchAction = (actionType) => {
     store.dispatch({
-      type: 'GOOD'
+      type: actionType
     })
   }
 
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button>ok</button> 
-      <button>bad</button>
-      <button>reset stats</button>
+      <button onClick={() => dispatchAction(actionTypes.good)}>good</button> 
+      <button onClick={() => dispatchAction(actionTypes.ok)}>ok</button> 
+      <button onClick={() => dispatchAction(actionTypes.bad)}>bad</button>
+      <button onClick={() => dispatchAction(actionTypes.reset)}>reset stats</button>
       <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
+      <div>ok {store.getState().ok}</div>
+      <div>bad {store.getState().bad}</div>
     </div>
   )
 }
