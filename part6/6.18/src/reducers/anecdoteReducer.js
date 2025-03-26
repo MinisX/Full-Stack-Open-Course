@@ -10,15 +10,8 @@ const anecdoteSlice = createSlice({
     },
 
     doVote(state, action){
-      const id = action.payload
-      const anecdoteToChange = state.find(n => n.id === id)
-      const changedAnecdote = {
-        ...anecdoteToChange,
-        votes: anecdoteToChange.votes + 1
-      }
-
-      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote)
-
+      const changedAnecdote = action.payload
+      return state.map(anecdote => anecdote.id !== changedAnecdote.id ? anecdote : changedAnecdote)
     },
 
     setAnecdotes(state, action) {
@@ -44,6 +37,22 @@ export const createAnecdote = content => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.createNew(content)
     dispatch(appendAnecdote(newAnecdote))
+  }
+}
+
+// action creators with Redux Thunk 
+export const updateVote = (id) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const anecdoteToChange = state.anecdotes.find(n => n.id === id)
+
+    const changedAnecdote = {
+      ...anecdoteToChange,
+      votes: anecdoteToChange.votes + 1
+    }
+
+    const updatedAnecdote = await anecdoteService.update(changedAnecdote, anecdoteToChange.id)
+    dispatch(doVote(updatedAnecdote))
   }
 }
 
