@@ -10,18 +10,10 @@ import Togglable from './components/Togglable';
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({ error: false, text: '' });
 
   const sortBlogs = (blogsToSort) => {
     return [...blogsToSort].sort((a, b) => a.likes - b.likes);
   };
-
-  useEffect(() => {
-    if (notification !== null)
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-  }, [notification]);
 
   useEffect(() => {
     if (user !== null) blogService.getAll().then((blogs) => setBlogs(sortBlogs(blogs)));
@@ -52,9 +44,9 @@ const App = () => {
 
   return (
     <div>
-      <Notification notification={notification} />
+      <Notification />
       {user === null ? (
-        <Login setUser={setUser} setNotification={setNotification} />
+        <Login setUser={setUser} />
       ) : (
         <div>
           <h2>blogs</h2>
@@ -63,7 +55,7 @@ const App = () => {
           <br />
           <Togglable buttonLabel="create new blog">
             <h2>create new</h2>
-            <BlogCreate blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} />
+            <BlogCreate blogs={blogs} setBlogs={setBlogs} />
           </Togglable>
           <br />
           <br />
@@ -72,7 +64,6 @@ const App = () => {
               key={blog.id}
               blog={blog}
               updateBlog={updateBlog}
-              setNotification={setNotification}
               showDeleteButton={blog.user.username === user.username}
             />
           ))}

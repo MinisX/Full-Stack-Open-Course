@@ -1,41 +1,48 @@
-import { useState } from 'react'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
+import { useState } from 'react';
+import loginService from '../services/login';
+import blogService from '../services/blogs';
+import { useDispatch } from 'react-redux';
+import { setNotificationWithTimeout } from '../reducers/notificationReducer';
 
-const Login = ({ setUser, setNotification }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const Login = ({ setUser }) => {
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
       const user = await loginService.login({
-        username, password,
-      })
+        username,
+        password
+      });
 
-      window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setNotification({ error: false, text: `You have succesfully logged in as ${username}` })
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user));
+      blogService.setToken(user.token);
+      dispatch(
+        setNotificationWithTimeout(
+          { error: false, text: `You have succesfully logged in as ${username}` },
+          5
+        )
+      );
+      setUser(user);
+      setUsername('');
+      setPassword('');
     } catch (exception) {
-      setNotification({ error: true, text: 'Wrong credentials' })
-      console.error('Wrong credetinals')
+      dispatch(setNotificationWithTimeout({ error: true, text: 'Wrong credentials' }, 5));
+      console.error('Wrong credetinals');
     }
-  }
+  };
 
   return (
     <div>
       <h2>log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
-            username
+          username
           <input
-            data-testid='username'
+            data-testid="username"
             type="text"
             value={username}
             name="Username"
@@ -43,9 +50,9 @@ const Login = ({ setUser, setNotification }) => {
           />
         </div>
         <div>
-            password
+          password
           <input
-            data-testid='password'
+            data-testid="password"
             type="password"
             value={password}
             name="Password"
@@ -55,7 +62,7 @@ const Login = ({ setUser, setNotification }) => {
         <button type="submit">login</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
