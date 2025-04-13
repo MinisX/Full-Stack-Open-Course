@@ -1,6 +1,7 @@
 import globals from "globals";
-import stylisticJs from '@stylistic/eslint-plugin-js'
-import js from '@eslint/js'
+import stylisticJs from '@stylistic/eslint-plugin-js';
+import js from '@eslint/js';
+import prettier from 'eslint-plugin-prettier';
 
 export default [
   js.configs.recommended,
@@ -14,7 +15,8 @@ export default [
       ecmaVersion: "latest",
     },
     plugins: {
-      '@stylistic/js': stylisticJs
+      '@stylistic/js': stylisticJs,
+      prettier,
     },
     rules: {
       '@stylistic/js/indent': [
@@ -42,9 +44,10 @@ export default [
         'error', { 'before': true, 'after': true },
       ],
       'no-console': 'off',
+      'prettier/prettier': 'error', // Ensure Prettier rules are enforced
     },
   },
   { 
     ignores: ["dist/**", "build/**"],
   },
-]
+];

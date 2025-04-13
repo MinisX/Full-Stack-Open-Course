@@ -6,8 +6,10 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env  NODE_ENV=test node --test",
+    "start:test": "NODE_ENV=test node index.js",
     "lint": "eslint .",
-    "start:test": "NODE_ENV=test node index.js"
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "author": "Daniel",
   "license": "ISC",
@@ -26,8 +28,11 @@
     "@stylistic/eslint-plugin-js": "^2.10.1",
     "cross-env": "^7.0.3",
     "eslint": "^9.14.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "globals": "^15.12.0",
     "nodemon": "^3.1.7",
+    "prettier": "3.5.3",
     "supertest": "^7.0.0"
   }
 }
