@@ -6,17 +6,25 @@ import blogService from './services/blogs';
 import Notification from './components/Notification';
 import './index.css';
 import Togglable from './components/Togglable';
+import { initializeBlogs } from './reducers/blogReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const blogs = useSelector(({ blogs }) => blogs);
 
   const sortBlogs = (blogsToSort) => {
     return [...blogsToSort].sort((a, b) => a.likes - b.likes);
   };
 
+  // TODO
+  const setBlogs = () => {
+    // do nothing
+  };
+
   useEffect(() => {
-    if (user !== null) blogService.getAll().then((blogs) => setBlogs(sortBlogs(blogs)));
+    if (user !== null) dispatch(initializeBlogs());
   }, [user]);
 
   useEffect(() => {
@@ -55,11 +63,11 @@ const App = () => {
           <br />
           <Togglable buttonLabel="create new blog">
             <h2>create new</h2>
-            <BlogCreate blogs={blogs} setBlogs={setBlogs} />
+            <BlogCreate />
           </Togglable>
           <br />
           <br />
-          {blogs.map((blog) => (
+          {sortBlogs(blogs).map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import blogService from '../services/blogs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNotificationWithTimeout } from '../reducers/notificationReducer';
+import { createBlog } from '../reducers/blogReducer';
 
-const BlogCreate = ({ setBlogs, blogs }) => {
+const BlogCreate = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -19,7 +20,7 @@ const BlogCreate = ({ setBlogs, blogs }) => {
     };
 
     try {
-      blogService.create(blogObject).then((returnedBlog) => setBlogs(blogs.concat(returnedBlog)));
+      dispatch(createBlog(blogObject));
       dispatch(
         setNotificationWithTimeout(
           { error: false, text: `The blog ${title} was created succesfully` },
