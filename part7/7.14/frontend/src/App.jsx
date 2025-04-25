@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Users from './components/Users';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import BlogCreate from './components/BlogCreate';
@@ -31,7 +32,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <Notification />
       {user === null ? (
         <Login />
@@ -54,6 +55,8 @@ const App = () => {
               showDeleteButton={blog.user.username === user.username}
             />
           ))}
+          <h2>Users</h2>
+          <Users />
         </div>
       )}
     </div>
