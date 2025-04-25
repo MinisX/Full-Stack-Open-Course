@@ -10,7 +10,7 @@ import Togglable from './components/Togglable';
 import { initializeBlogs } from './reducers/blogReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { doLogout, sessionLogin, setUser } from './reducers/userReducer';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Link } from 'react-router-dom';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -51,16 +51,31 @@ const App = () => {
             </Togglable>
             <br />
             <br />
-            {sortBlogs(blogs).map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                showDeleteButton={blog.user.username === user.username}
-              />
-            ))}
-            <h2>Users</h2>
             <Routes>
-              <Route path="/" element={<Users />} />
+              <Route
+                path="/blogs"
+                element={
+                  <>
+                    {sortBlogs(blogs).map((blog) => (
+                      <div key={blog.id}>
+                        <Link to={`/blogs/${blog.id}/${blog.user.username === user.username}`}>
+                          {blog.title} {blog.author}
+                        </Link>
+                      </div>
+                    ))}
+                  </>
+                }
+              />
+              <Route path="/blogs/:id/:showDeleteButton" element={<Blog />} />
+              <Route
+                path="/users"
+                element={
+                  <>
+                    <h2>Users</h2>
+                    <Users />
+                  </>
+                }
+              />
               <Route path="/users/:id" element={<User />} />
             </Routes>
           </div>

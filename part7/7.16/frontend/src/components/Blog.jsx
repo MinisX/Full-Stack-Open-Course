@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { likeBlog, removeBlog } from '../reducers/blogReducer';
+import { useParams } from 'react-router-dom';
 
-const Blog = ({ blog, showDeleteButton }) => {
+const Blog = () => {
+  const { id, showDeleteButton } = useParams();
+  const blogs = useSelector(({ blogs }) => blogs);
+  const blog = blogs.find((b) => b.id === id);
   const dispatch = useDispatch();
-  const [viewDetails, setViewDetails] = useState(false);
 
   const handleLike = () => {
     dispatch(likeBlog(blog));
@@ -26,21 +29,19 @@ const Blog = ({ blog, showDeleteButton }) => {
   return (
     <div style={blogStyle}>
       <div className="main_content">
-        {blog.title} {blog.author}
-        <button onClick={() => setViewDetails(!viewDetails)}>
-          {viewDetails ? 'hide' : 'view'}
-        </button>
+        <h2>{blog.title}</h2>
       </div>
-      {viewDetails && (
-        <div className="extra_content">
-          <br />
-          {blog.url}
-          <br />
-          {blog.likes} <button onClick={handleLike}>like</button>
-          <br />
-          {showDeleteButton && <button onClick={handleRemove}>remove</button>}
-        </div>
-      )}
+
+      <div className="extra_content">
+        <br />
+        {blog.url}
+        <br />
+        {blog.likes} <button onClick={handleLike}>like</button>
+        <br />
+        added by {blog.author}
+        <br />
+        {showDeleteButton && <button onClick={handleRemove}>remove</button>}
+      </div>
     </div>
   );
 };

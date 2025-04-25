@@ -8,7 +8,9 @@ const User = () => {
 
   return (
     <>
-      <h2>added blogs</h2>
+      <h1>{user.name}</h1>
+      <br />
+      <h3>added blogs</h3>
       <ul>{user && user.blogs.map((blog) => <li key={blog.id}>{blog.title}</li>)}</ul>
     </>
   );
