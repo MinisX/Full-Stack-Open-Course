@@ -3,8 +3,9 @@ import loginService from '../services/login';
 import blogService from '../services/blogs';
 import { useDispatch } from 'react-redux';
 import { setNotificationWithTimeout } from '../reducers/notificationReducer';
+import { doLogin } from '../reducers/userReducer';
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,27 +13,7 @@ const Login = ({ setUser }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    try {
-      const user = await loginService.login({
-        username,
-        password
-      });
-
-      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user));
-      blogService.setToken(user.token);
-      dispatch(
-        setNotificationWithTimeout(
-          { error: false, text: `You have succesfully logged in as ${username}` },
-          5
-        )
-      );
-      setUser(user);
-      setUsername('');
-      setPassword('');
-    } catch (exception) {
-      dispatch(setNotificationWithTimeout({ error: true, text: 'Wrong credentials' }, 5));
-      console.error('Wrong credetinals');
-    }
+    dispatch(doLogin(username, password));
   };
 
   return (
