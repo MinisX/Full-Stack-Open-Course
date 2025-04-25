@@ -18,11 +18,6 @@ const App = () => {
     return [...blogsToSort].sort((a, b) => a.likes - b.likes);
   };
 
-  // TODO
-  const setBlogs = () => {
-    // do nothing
-  };
-
   useEffect(() => {
     if (user !== null) dispatch(initializeBlogs());
   }, [user]);
@@ -35,15 +30,6 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
-
-  const updateBlog = (updatedBlog) => {
-    setBlogs((prevBlogs) => {
-      if (updatedBlog.deleted) return prevBlogs.filter((b) => b.id !== updatedBlog.id);
-
-      const newBlogs = prevBlogs.map((b) => (b.id === updatedBlog.id ? updatedBlog : b));
-      return sortBlogs(newBlogs);
-    });
-  };
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser');
@@ -71,7 +57,6 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              updateBlog={updateBlog}
               showDeleteButton={blog.user.username === user.username}
             />
           ))}

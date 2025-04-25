@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import blogService from '../services/blogs';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNotificationWithTimeout } from '../reducers/notificationReducer';
 import { createBlog } from '../reducers/blogReducer';
 
 const BlogCreate = () => {
@@ -19,19 +17,7 @@ const BlogCreate = () => {
       url
     };
 
-    try {
-      dispatch(createBlog(blogObject));
-      dispatch(
-        setNotificationWithTimeout(
-          { error: false, text: `The blog ${title} was created succesfully` },
-          5
-        )
-      );
-    } catch (exception) {
-      dispatch(
-        setNotificationWithTimeout({ error: true, text: 'The blog creation has failed' }, 5)
-      );
-    }
+    dispatch(createBlog(blogObject));
   };
 
   return (
