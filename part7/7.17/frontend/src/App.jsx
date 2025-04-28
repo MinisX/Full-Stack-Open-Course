@@ -36,13 +36,21 @@ const App = () => {
   return (
     <Router>
       <div className="container">
+        <div>
+          <Link style={{ padding: 5 }} to="/">
+            blogs
+          </Link>
+          <Link style={{ padding: 5 }} to="/users">
+            users
+          </Link>
+        </div>
         <Notification />
         {user === null ? (
           <Login />
         ) : (
           <div>
-            <h2>blogs</h2>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
+            <h2>blogs</h2>
             <br />
             <br />
             <Togglable buttonLabel="create new blog">
@@ -53,7 +61,7 @@ const App = () => {
             <br />
             <Routes>
               <Route
-                path="/blogs"
+                path="/"
                 element={
                   <>
                     {sortBlogs(blogs).map((blog) => (
