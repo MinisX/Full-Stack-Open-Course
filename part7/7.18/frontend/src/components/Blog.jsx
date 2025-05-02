@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeBlog, removeBlog } from '../reducers/blogReducer';
+import { initializeBlogs, likeBlog, removeBlog } from '../reducers/blogReducer';
 import { useParams } from 'react-router-dom';
+import Comments from './Comments';
 
 const Blog = () => {
   const { id, showDeleteButton } = useParams();
   const blogs = useSelector(({ blogs }) => blogs);
   const blog = blogs.find((b) => b.id === id);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (blogs.length === 0) {
+      dispatch(initializeBlogs());
+    }
+  }, [blogs]);
+
+  if (!blog) {
+    return null;
+  }
 
   const handleLike = () => {
     dispatch(likeBlog(blog));
@@ -41,6 +52,7 @@ const Blog = () => {
         added by {blog.author}
         <br />
         {showDeleteButton && <button onClick={handleRemove}>remove</button>}
+        <Comments blog={blog} />
       </div>
     </div>
   );

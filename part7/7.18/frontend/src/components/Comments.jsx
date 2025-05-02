@@ -1,15 +1,16 @@
 import { useState } from 'react';
 
-const Comments = ({ blogID }) => {
-  const [comments, setComments] = useState([]);
+const Comments = ({ blog }) => {
   return (
     <>
       <h2>comments</h2>
       <ul>
-        {comments.map((comment) => (
-          <li>{comment}</li>
+        {blog.comments.map((comment, index) => (
+          <li key={index}>{comment}</li>
         ))}
       </ul>
     </>
   );
 };
+
+export default Comments;
