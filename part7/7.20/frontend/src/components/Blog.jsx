@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initializeBlogs, likeBlog, removeBlog } from '../reducers/blogReducer';
 import { useParams } from 'react-router-dom';
 import Comments from './Comments';
+import { Button } from 'react-bootstrap';
 
 const Blog = () => {
   const { id, showDeleteButton } = useParams();
@@ -47,11 +48,18 @@ const Blog = () => {
         <br />
         {blog.url}
         <br />
-        {blog.likes} <button onClick={handleLike}>like</button>
+        {blog.likes}{' '}
+        <Button variant="primary" onClick={handleLike}>
+          like
+        </Button>
         <br />
         added by {blog.author}
         <br />
-        {showDeleteButton && <button onClick={handleRemove}>remove</button>}
+        {showDeleteButton && (
+          <Button variant="primary" onClick={handleRemove}>
+            remove
+          </Button>
+        )}
         <Comments blog={blog} />
       </div>
     </div>

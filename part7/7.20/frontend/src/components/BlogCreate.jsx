@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createBlog } from '../reducers/blogReducer';
+import { Form, Button } from 'react-bootstrap';
 
 const BlogCreate = () => {
   const dispatch = useDispatch();
@@ -22,39 +23,41 @@ const BlogCreate = () => {
 
   return (
     <div>
-      <form onSubmit={handleCreate}>
-        <div>
-          title
-          <input
+      <Form onSubmit={handleCreate}>
+        <Form.Group className="mb-3">
+          <Form.Label>title</Form.Label>
+          <Form.Control
             type="text"
             value={title}
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
             placeholder="write title here"
           />
-        </div>
-        <div>
-          author
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>author</Form.Label>
+          <Form.Control
             type="text"
             value={author}
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
             placeholder="write author here"
           />
-        </div>
-        <div>
-          url
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>url</Form.Label>
+          <Form.Control
             type="text"
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
             placeholder="write url here"
           />
-        </div>
-        <button type="submit">create</button>
-      </form>
+        </Form.Group>
+        <Button style={{ marginBottom: 10 }} variant="primary" type="submit">
+          create
+        </Button>
+      </Form>
     </div>
   );
 };

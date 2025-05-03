@@ -11,6 +11,7 @@ import { initializeBlogs } from './reducers/blogReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { doLogout, sessionLogin, setUser } from './reducers/userReducer';
 import { Route, BrowserRouter as Router, Routes, Link } from 'react-router-dom';
+import { Button, Navbar, Nav } from 'react-bootstrap';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,23 +34,51 @@ const App = () => {
     dispatch(doLogout());
   };
 
+  const padding = { padding: 5 };
+
   return (
     <Router>
       <div className="container">
-        <div>
-          <Link style={{ padding: 5 }} to="/">
-            blogs
-          </Link>
-          <Link style={{ padding: 5 }} to="/users">
-            users
-          </Link>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/">
+                  blogs
+                </Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/users">
+                  users
+                </Link>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <div style={{ marginTop: 10 }}>
+          {user ? (
+            <>
+              <em style={padding}>{user.name} logged in</em>
+              <Button
+                style={{ marginLeft: 10 }}
+                variant="outline-dark"
+                size="sm"
+                onClick={handleLogout}>
+                logout
+              </Button>
+            </>
+          ) : (
+            <Link style={padding} to="/login">
+              login
+            </Link>
+          )}
         </div>
         <Notification />
         {user === null ? (
           <Login />
         ) : (
           <div>
-            {user.name} logged in <button onClick={handleLogout}>logout</button>
             <h2>blogs</h2>
             <br />
             <br />
