@@ -106,4 +106,29 @@ export const removeBlog = (blogToRemove) => {
   }
 }
 
+export const addComment = (blogToComment, comment) => {
+  return async (dispatch) => {
+    try{
+    const updatedBlog = await blogService.addComment({comment: comment}, blogToComment.id)
+    dispatch(updateBlog(updatedBlog))
+    dispatch(
+            setNotificationWithTimeout(
+              {
+                error: false,
+                text: `The blog ${blogToComment.title} has received a comment: ${comment}`
+              },
+              5
+            )
+          );
+    } catch (exception) {
+      dispatch(
+        setNotificationWithTimeout(
+          { error: true, text: `The blog comment has failed: ${exception.message}` },
+          5
+        )
+      );
+    }
+  }
+}
+
 export default blogSlice.reducer

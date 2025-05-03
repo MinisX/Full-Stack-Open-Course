@@ -6,9 +6,12 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.get(':id/comments', async (request, response) => {
+blogsRouter.post('/:id/comments', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
-  return response.json(blog.comments)
+  const { comment } = request.body
+  blog.comments.push(comment)
+  const updatedBlog = await blog.save()
+  response.status(201).json(updatedBlog)
 })
 
 // catch of exception is handled by express-async-errors library
