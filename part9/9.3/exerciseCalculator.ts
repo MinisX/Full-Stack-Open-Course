@@ -44,7 +44,7 @@ const calculateExercises = (dailyExerciseHours: number[], target: number) : Resu
     return{ 
         periodLength: periodLength,
         trainingDays,
-        success: false,
+        success: success,
         rating,
         ratingDescription: ratingDescription,
         target: target,
