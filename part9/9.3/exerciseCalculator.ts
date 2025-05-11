@@ -10,6 +10,33 @@ interface ResultObject {
   average: number
 }
 
+interface CalculateValues {
+    dailyExerciseHours: number[],
+    target: number
+}
+
+const parseArguments2 = (args: string[]): CalculateValues => {
+    if (args.length < 4) throw new Error('Not enough arguments');
+
+    const target = Number(args[2]);
+    const dailyHours = args.slice(3).map((val) => {
+        const num = Number(val);
+        if (isNaN(num)) {
+        throw new Error('Provided values were not all numbers!');
+        }
+        return num;
+  });
+
+    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+        return {
+            target,
+            dailyExerciseHours: dailyHours
+        }
+    } else {
+        throw new Error('Provided values were not numbers!');
+    }
+}
+
 const calculateExercises = (dailyExerciseHours: number[], target: number) : ResultObject => {
     let periodLength = dailyExerciseHours.length;
     let trainingDays = 0;
@@ -52,4 +79,19 @@ const calculateExercises = (dailyExerciseHours: number[], target: number) : Resu
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+    const { target, dailyExerciseHours } = parseArguments2(process.argv);
+    console.log(calculateExercises(dailyExerciseHours, target));
+} catch (error: unknown) {
+    let errorMessage = 'Something went wrong: '
+    // here we can not use error.message
+
+    if (error instanceof Error) {
+        // the type is narrowed and we can refer to error.message
+
+        errorMessage += error.message;
+    }
+    // here we can not use error.message
+
+    console.log(errorMessage);
+}
