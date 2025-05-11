@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 
-app.get('/hello', (req, res) => {
+app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
 });
 
