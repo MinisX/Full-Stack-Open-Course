@@ -11,7 +11,7 @@ interface ResultObject {
 }
 
 interface CalculateValues {
-    dailyExerciseHours: number[],
+    daily_exercises: number[],
     target: number
 }
 
@@ -30,15 +30,15 @@ const parseArguments2 = (args: string[]): CalculateValues => {
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
         return {
             target,
-            dailyExerciseHours: dailyHours
-        }
+            daily_exercises: dailyHours
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
-const calculateExercises = (dailyExerciseHours: number[], target: number) : ResultObject => {
-    let periodLength = dailyExerciseHours.length;
+export const calculateExercises = (dailyExerciseHours: number[], target: number) : ResultObject => {
+    const periodLength = dailyExerciseHours.length;
     let trainingDays = 0;
     let totalHours = 0;
     let ratingDescription = '';
@@ -76,14 +76,14 @@ const calculateExercises = (dailyExerciseHours: number[], target: number) : Resu
         ratingDescription: ratingDescription,
         target: target,
         average: totalHours / periodLength
-    }
-}
+    };
+};
 
 try {
-    const { target, dailyExerciseHours } = parseArguments2(process.argv);
-    console.log(calculateExercises(dailyExerciseHours, target));
+    const { target, daily_exercises } = parseArguments2(process.argv);
+    console.log(calculateExercises(daily_exercises, target));
 } catch (error: unknown) {
-    let errorMessage = 'Something went wrong: '
+    let errorMessage = 'Something went wrong: ';
     // here we can not use error.message
 
     if (error instanceof Error) {
