@@ -31,14 +31,14 @@ const parseArguments2 = (args: string[]): CalculateValues => {
         return {
             target,
             dailyExerciseHours: dailyHours
-        };
+        }
     } else {
         throw new Error('Provided values were not numbers!');
     }
-};
+}
 
-export const calculateExercises = (dailyExerciseHours: number[], target: number) : ResultObject => {
-    const periodLength = dailyExerciseHours.length;
+const calculateExercises = (dailyExerciseHours: number[], target: number) : ResultObject => {
+    let periodLength = dailyExerciseHours.length;
     let trainingDays = 0;
     let totalHours = 0;
     let ratingDescription = '';
@@ -76,14 +76,14 @@ export const calculateExercises = (dailyExerciseHours: number[], target: number)
         ratingDescription: ratingDescription,
         target: target,
         average: totalHours / periodLength
-    };
-};
+    }
+}
 
 try {
     const { target, dailyExerciseHours } = parseArguments2(process.argv);
     console.log(calculateExercises(dailyExerciseHours, target));
 } catch (error: unknown) {
-    let errorMessage = 'Something went wrong: ';
+    let errorMessage = 'Something went wrong: '
     // here we can not use error.message
 
     if (error instanceof Error) {
