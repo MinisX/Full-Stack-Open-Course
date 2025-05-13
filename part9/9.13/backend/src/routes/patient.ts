@@ -1,6 +1,7 @@
 import express, { Response } from 'express';
 import patientService from '../services/patientService';
 import { NonSensitivePatient } from '../types';
+import toNewPatientEntry from '../utils';
 
 const router = express.Router();
 
@@ -17,17 +18,17 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-    const { name, dateOfBirth, ssn, gender, occupation } = req.body;
-    const addedEnty = patientService.addPatient({
-        name, 
-        dateOfBirth, 
-        ssn, 
-        gender, 
-        occupation
-    });
-
-    res.json(addedEnty);
+    try{
+        const newPatientEntry = toNewPatientEntry(req.body);
+        const addedEntry = patientService.addPatient(newPatientEntry);
+        res.json(addedEntry);
+    } catch (error: unknown){
+        let errorMessage = 'Something went wrong.';
+        if (error instanceof Error) {
+            errorMessage += ' Error: ' + error.message;
+        }
+        res.status(400).send(errorMessage);
+    }
 });
 
 router.post('/', (_req,res) => {
