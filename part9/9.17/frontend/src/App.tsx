@@ -1,50 +1,30 @@
-import Content, { type CoursePart } from "./components/Content";
-import Header from "./components/Header";
-import Total from "./components/Total";
+import type { DiaryEntry } from "./types";
+import { useEffect, useState } from "react";
+import { getAllDiaries, createDiary } from "./services/diaryService";
+import Diary from "./components/Diary";
 
 const App = () => {
-  const courseName = "Half Stack application development";
-  const courseParts: CoursePart[] = [
-  {
-    name: "Fundamentals",
-    exerciseCount: 10,
-    description: "This is an awesome course part",
-    kind: "basic"
-  },
-  {
-    name: "Using props to pass data",
-    exerciseCount: 7,
-    groupProjectCount: 3,
-    kind: "group"
-  },
-  {
-    name: "Basics of type Narrowing",
-    exerciseCount: 7,
-    description: "How to go from unknown to string",
-    kind: "basic"
-  },
-  {
-    name: "Deeper type usage",
-    exerciseCount: 14,
-    description: "Confusing description",
-    backgroundMaterial: "https://type-level-typescript.com/template-literal-types",
-    kind: "background"
-  },
-  {
-    name: "TypeScript in frontend",
-    exerciseCount: 10,
-    description: "a hard part",
-    kind: "basic",
-  },
-];
+  const [newDiary, setNewDiary] = useState('');
+  const [diaries, setDiaries] = useState<DiaryEntry[]>([
+    {  id: 1, date: 'testing', weather: 'sunny', visibility: 'good', comment: 'testing'}
+  ]);
 
-  const totalExercises = courseParts.reduce((sum, part) => sum + part.exerciseCount, 0);
 
+  useEffect(() => {
+    getAllDiaries().then(data => {
+      setDiaries(data);
+    })
+  }, [])
+  
   return (
     <div>
-      <Header header={courseName}/>
-      <Content courseParts={courseParts}/>
-      <Total total={totalExercises}/>
+      <h1>
+        Diary entries
+      </h1>
+      {diaries.map((diary, key) => (
+        <Diary key={key} diaryEntry={diary} />
+      ))}
+      
     </div>
   );
 };
