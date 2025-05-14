@@ -1,10 +1,10 @@
 import type { DiaryEntry } from "./types";
 import { useEffect, useState } from "react";
-import { getAllDiaries, createDiary } from "./services/diaryService";
+import { getAllDiaries } from "./services/diaryService";
 import Diary from "./components/Diary";
+import NewDiary from "./components/NewDiary";
 
 const App = () => {
-  const [newDiary, setNewDiary] = useState('');
   const [diaries, setDiaries] = useState<DiaryEntry[]>([
     {  id: 1, date: 'testing', weather: 'sunny', visibility: 'good', comment: 'testing'}
   ]);
@@ -18,6 +18,8 @@ const App = () => {
   
   return (
     <div>
+      <h1>Add new entry</h1>
+      <NewDiary setDiaries={setDiaries} diaries={diaries} />
       <h1>
         Diary entries
       </h1>
