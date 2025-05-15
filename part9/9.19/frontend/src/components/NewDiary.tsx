@@ -1,10 +1,12 @@
 import { useState } from "react"
 import type { DiaryEntry, Visibility, Weather } from "../types";
 import { createDiary } from "../services/diaryService";
+import axios from "axios";
 
-const NewDiary = ({ setDiaries, diaries }: { 
+const NewDiary = ({ setDiaries, diaries, setError }: { 
     setDiaries: React.Dispatch<React.SetStateAction<DiaryEntry[]>>; 
     diaries: DiaryEntry[]; 
+    setError: React.Dispatch<React.SetStateAction<string>>;
 }) => {
     const [newDate, setNewDate] = useState('');
     const [newVisibility, setNewVisibility] = useState<Visibility>();
@@ -26,9 +28,22 @@ const NewDiary = ({ setDiaries, diaries }: {
             comment: newComment
         }
 
-        createDiary(diaryToAdd).then(data => {
+        createDiary(diaryToAdd)
+        .then(data => {
             setDiaries(diaries.concat(data))
         })
+        .catch((error) => {
+            if (axios.isAxiosError(error)) {
+                const message = typeof error.response?.data === 'string'
+                ? error.response.data
+                : error.message;
+
+                console.log(message);
+                setError(message);
+            } else {
+                setError('An unknown error occurred');
+            }
+        });
     }
     return (
         <div>
