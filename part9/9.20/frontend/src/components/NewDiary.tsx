@@ -12,6 +12,8 @@ const NewDiary = ({ setDiaries, diaries, setError }: {
     const [newVisibility, setNewVisibility] = useState<Visibility>();
     const [newWeather, setNewWeather] = useState<Weather>();
     const [newComment, setNewComment] = useState('');
+    const visibilityOptions: Visibility[] = ['great', 'good', 'ok', 'poor'];
+    const weatherOptions: Weather[] = ['sunny', 'rainy', 'cloudy', 'stormy', 'windy'];
 
     const diaryCreation = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -56,18 +58,32 @@ const NewDiary = ({ setDiaries, diaries, setError }: {
                 />
                 <br />
                 visibility
-                <input 
-                type="text" 
-                value={newVisibility} 
-                onChange={(event) => setNewVisibility(event.target.value as Visibility)} 
-                />
+                {visibilityOptions.map(option => (
+                    <label key={option}>
+                        <input 
+                            name="visibility"
+                            type="radio" 
+                            value={option} 
+                            checked={newVisibility === option}
+                            onChange={() => setNewVisibility(option)} 
+                        />
+                        {option}
+                    </label>
+                ))}
                 <br />
                 weather
-                <input 
-                type="text" 
-                value={newWeather} 
-                onChange={(event) => setNewWeather(event.target.value as Weather)} 
-                />
+                {weatherOptions.map(option => (
+                    <label key={option}>
+                        <input 
+                            name="weather"
+                            type="radio" 
+                            value={option} 
+                            checked={newWeather === option}
+                            onChange={() => setNewWeather(option)} 
+                        />
+                        {option}
+                    </label>
+                ))}
                 <br />
                 comment
                 <input 
