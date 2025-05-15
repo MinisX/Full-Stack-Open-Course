@@ -10,6 +10,10 @@ export interface Diagnosis {
 // infer the type from schema
 export type NewPatientEntry = z.infer<typeof newEntrySchema>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Entry {
+}
+
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -20,6 +24,6 @@ export interface Patient extends NewPatientEntry {
     id: string,
 }
 
-export type NonSensitivePatient = Omit<Patient, 'ssn'>;
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
 
 export type NewPatient = Omit<Patient, 'id'>; 
