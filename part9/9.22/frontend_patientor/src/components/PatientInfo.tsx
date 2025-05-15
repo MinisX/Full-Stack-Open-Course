@@ -15,7 +15,7 @@ const PatientInfo = () => {
             patientService.getById(id)
             .then(data => setPatient(data));
         }
-    }, []);
+    }, [id]);
 
      if(!patient)
         return null;
