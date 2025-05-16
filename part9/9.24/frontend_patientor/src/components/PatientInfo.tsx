@@ -33,8 +33,22 @@ const PatientInfo = () => {
             )}
         </h1>
         {`ssn: ${patient.ssn}`}
-            <br/>
-            {`occupation: ${patient.occupation}`}
+        <br/>
+        {`occupation: ${patient.occupation}`}
+        
+        <h2>entries</h2>
+        {patient.entries.map((entry) => (
+        <div key={entry.id}>
+            <p>
+            {entry.date} <i>{entry.description}</i>
+            </p>
+            <ul>
+            {entry.diagnosisCodes?.map((code) => (
+                <li key={code}>{code}</li>
+            ))}
+            </ul>
+        </div>
+        ))}
         </>
     );
 };
