@@ -5,6 +5,7 @@ import MaleIcon from '@mui/icons-material/Male';
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import { useEffect, useState } from "react";
 import patientService from '../services/patients';
+import EntryDetails from "./EntryDetails/EntryDetails";
 
 type Props = {
     diagnoses: Diagnosis[]
@@ -24,6 +25,14 @@ const PatientInfo = ({ diagnoses } : Props) => {
      if(!patient)
         return null;
 
+    const entryStyle = {
+       padding: 10,
+       border: 'solid',
+       borderWidth: 1,
+       marginBottom: 5,
+       borderRadius: 8
+    };
+
     return(
         <>
         <h1>
@@ -42,20 +51,25 @@ const PatientInfo = ({ diagnoses } : Props) => {
         
         <h2>entries</h2>
         {patient.entries.map((entry) => (
-        <div key={entry.id}>
+        <div key={entry.id} style={entryStyle}>
             <p>
-            {entry.date} <i>{entry.description}</i>
+            {entry.date} 
+            <br/>
+            <i>{entry.description}</i>
             </p>
             <ul>
-            {entry.diagnosisCodes?.map((code) => {
-                const diagnosis = diagnoses.find(d => d.code === code);
-                return (
-                    <li key={code}>
-                        {code} {diagnosis ? diagnosis.name : ""}
-                    </li>
-                );
-            })}
+                {entry.diagnosisCodes?.map((code) => {
+                    const diagnosis = diagnoses.find(d => d.code === code);
+                    return (
+                        <li key={code}>
+                            {code} {diagnosis ? diagnosis.name : ""}
+                        </li>
+                    );
+                })}
             </ul>
+            <EntryDetails entry={entry}/>
+            <br/>
+            diagnose by {entry.specialist}
         </div>
         ))}
         </>
