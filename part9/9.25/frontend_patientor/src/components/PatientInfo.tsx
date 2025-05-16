@@ -47,9 +47,14 @@ const PatientInfo = ({ diagnoses } : Props) => {
             {entry.date} <i>{entry.description}</i>
             </p>
             <ul>
-            {entry.diagnosisCodes?.map((code) => (
-                <li key={code}>{code}</li>
-            ))}
+            {entry.diagnosisCodes?.map((code) => {
+                const diagnosis = diagnoses.find(d => d.code === code);
+                return (
+                    <li key={code}>
+                        {code} {diagnosis ? diagnosis.name : ""}
+                    </li>
+                );
+            })}
             </ul>
         </div>
         ))}
