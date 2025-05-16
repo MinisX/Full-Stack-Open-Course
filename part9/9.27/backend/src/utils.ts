@@ -46,6 +46,12 @@ const entrySchema = z.union([
   hospitalEntrySchema,
 ]);
 
+export const entryWithoutIdSchema = z.union([
+  healthCheckEntrySchema.omit({ id: true }),
+  occupationalHealthcareEntrySchema.omit({ id: true }),
+  hospitalEntrySchema.omit({ id: true }),
+]);
+
 export const newEntrySchema = z.object({
   name: z.string(),
   dateOfBirth: z.string(),
